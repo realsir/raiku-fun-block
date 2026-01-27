@@ -7,15 +7,22 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --text: #0b0b0b;
-      --soft: rgba(0,0,0,0.35);
-      --glow: rgba(255,255,255,0.85);
       --overlay: rgba(0,0,0,0.55);
-      --panel: rgba(255,255,255,0.92);
+
+      --img-bg: rgba(255,255,255,0.14);
+      --img-bg-hover: rgba(255,255,255,0.22);
+      --img-border: rgba(255,255,255,0.26);
+      --img-border-hover: rgba(255,255,255,0.44);
+      --shadow: rgba(0,0,0,0.16);
+      --ring: rgba(0,0,0,0.35);
+
+      --tile: 78px;
+      --tile-radius: 16px;
     }
 
     *{ box-sizing: border-box; }
@@ -51,6 +58,7 @@
       background: rgba(255,255,255,0.18);
       border: 1px solid rgba(255,255,255,0.28);
       backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       box-shadow: 0 18px 55px rgba(0,0,0,0.18);
     }
 
@@ -138,55 +146,96 @@
 
     .icon-grid{
       display: grid;
-      grid-template-columns: repeat(3, minmax(150px, 180px));
-      gap: 2px 6px; 
-      align-content: start;
+      grid-template-columns: repeat(5, var(--tile));
       justify-content: start;
+      align-content: start;
+
+      gap: 20px 40px;
     }
 
     @media (max-width: 600px){
       .desktop-inner{ padding-top: 100px; }
       .icon-grid{
-        grid-template-columns: repeat(2, minmax(150px, 1fr));
-        gap: 2px 6px; 
+        grid-template-columns: repeat(2, var(--tile));
+        gap: 18px 14px;
       }
     }
 
     .icon{
-      width: 180px;
-      text-decoration: none;
-      color: var(--text);
-
+      width: auto;
       display: grid;
       justify-items: center;
-      gap: 6px;
+      gap: 8px;
 
       padding: 0;
-      border-radius: 12px;
       background: transparent;
       border: none;
 
-      outline: none;
-      transition: transform 160ms ease, filter 160ms ease;
-      -webkit-tap-highlight-color: transparent;
-
-      cursor: pointer;
-      font: inherit;
+      cursor: default;
+      user-select: none;
     }
 
-    .icon img{
-      width: 78px;
-      height: 78px;
+    .icon-link{
+      display: inline-block;
+      width: var(--tile);
+      height: var(--tile);
+      border-radius: var(--tile-radius);
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      cursor: pointer;
+    }
+
+    button.icon-link{
+      background: none;
+      border: none;
+      padding: 0;
+      margin: 0;
+      color: inherit;
+      font: inherit;
+      line-height: 0;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    .icon-link img{
+      width: var(--tile);
+      height: var(--tile);
       object-fit: contain;
       user-select: none;
       -webkit-user-drag: none;
 
-      background: rgba(255,255,255,0.18);
-      border: 1px solid rgba(255,255,255,0.22);
-      border-radius: 14px;
       padding: 10px;
+      border-radius: var(--tile-radius);
+      background: var(--img-bg);
+      border: 1px solid var(--img-border);
 
-      filter: drop-shadow(0 10px 16px rgba(0,0,0,0.20));
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+
+      box-shadow: 0 12px 18px var(--shadow);
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 180ms ease;
+      display: block;
+    }
+
+    .icon-link:hover img{
+      background: var(--img-bg-hover);
+      border-color: var(--img-border-hover);
+      transform: translateY(-2px);
+      box-shadow:
+        0 16px 24px rgba(0,0,0,0.18),
+        0 0 18px rgba(255,255,255,0.22);
+    }
+
+    .icon-link:active img{
+      transform: translateY(-1px) scale(0.99);
+      box-shadow: 0 12px 18px rgba(0,0,0,0.16);
+    }
+
+    .icon-link:focus-visible img{
+      border-color: var(--ring);
+      box-shadow:
+        0 16px 24px rgba(0,0,0,0.18),
+        0 0 0 3px rgba(255,255,255,0.35);
     }
 
     .label{
@@ -197,32 +246,18 @@
 
       font-size: 12px;
       line-height: 1.10;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       user-select: none;
 
       text-shadow:
         0 2px 0 rgba(255,255,255,0.55),
-        0 8px 18px rgba(0,0,0,0.20);
-    }
-
-    .icon:hover,
-    .icon:focus-visible{
-      transform: translateY(-3px) scale(1.02);
-      filter:
-        drop-shadow(0 12px 18px rgba(0,0,0,0.22))
-        drop-shadow(0 0 16px rgba(255,255,255,0.55));
-    }
-
-    .icon:active{
-      transform: translateY(-1px) scale(1.01);
-      filter:
-        drop-shadow(0 10px 16px rgba(0,0,0,0.20))
-        drop-shadow(0 0 10px rgba(255,255,255,0.45));
+        0 8px 18px rgba(0,0,0,0.16);
     }
 
     .icon--irina{ grid-column: 1; }
+    .icon--quiz{ grid-column: 1; } 
 
     .dev-corner{
       position: fixed;
@@ -247,13 +282,14 @@
       inset: 0;
       background: var(--overlay);
       backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
     }
 
     .modal-panel{
       position: relative;
       width: min(860px, 92vw);
       height: min(620px, 78vh);
-      background: var(--panel);
+      background: rgba(255,255,255,0.92);
       border: 1px solid rgba(0,0,0,0.18);
       border-radius: 14px;
       box-shadow: 0 24px 70px rgba(0,0,0,0.35);
@@ -298,6 +334,11 @@
       background: transparent;
       display: block;
     }
+
+    @media (prefers-reduced-motion: reduce){
+      .blink{ animation: none; }
+      .icon-link img{ transition: none !important; }
+    }
   </style>
 </head>
 
@@ -319,56 +360,91 @@
 
     <div class="desktop-inner">
       <section class="icon-grid" aria-label="Main icons">
-        <a class="icon" href="https://t.co/mqoCITn2Jv" target="_blank" rel="noopener noreferrer">
-          <img src="1.png" alt="PINEAPPLE GAME icon">
+        <div class="icon">
+          <a class="icon-link" href="https://t.co/mqoCITn2Jv" target="_blank" rel="noopener noreferrer" aria-label="PINEAPPLE GAME">
+            <img src="1.png" alt="PINEAPPLE GAME icon">
+          </a>
           <div class="label">PINEAPPLE GAME</div>
-        </a>
+        </div>
 
-        <a class="icon" href="https://t.co/rQmXlSTblv" target="_blank" rel="noopener noreferrer">
-          <img src="1.png" alt="RYKU RUN icon">
+        <div class="icon">
+          <a class="icon-link" href="https://t.co/rQmXlSTblv" target="_blank" rel="noopener noreferrer" aria-label="RYKU RUN">
+            <img src="1.png" alt="RYKU RUN icon">
+          </a>
           <div class="label">RYKU RUN</div>
-        </a>
+        </div>
 
-        <a class="icon" href="https://t.co/78mbgUrMBu" target="_blank" rel="noopener noreferrer">
-          <img src="1.png" alt="RYKU BIRD icon">
+        <div class="icon">
+          <a class="icon-link" href="https://t.co/78mbgUrMBu" target="_blank" rel="noopener noreferrer" aria-label="RYKU BIRD">
+            <img src="1.png" alt="RYKU BIRD icon">
+          </a>
           <div class="label">RYKU BIRD</div>
-        </a>
+        </div>
 
-        <a class="icon" href="https://t.co/jVZc5HzGww" target="_blank" rel="noopener noreferrer">
-          <img src="1.png" alt="COMMUNITY GALLERY icon">
+        <div class="icon">
+          <a class="icon-link" href="https://ryku-snake.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="RYKU SNAKE">
+            <img src="1.png" alt="RYKU SNAKE icon">
+          </a>
+          <div class="label">RYKU SNAKE</div>
+        </div>
+
+        <div class="icon">
+          <a class="icon-link" href="https://ryku-strike.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="RYKU STRIKE">
+            <img src="1.png" alt="RYKU STRIKE icon">
+          </a>
+          <div class="label">RYKU STRIKE</div>
+        </div>
+
+        <div class="icon">
+          <a class="icon-link" href="https://t.co/jVZc5HzGww" target="_blank" rel="noopener noreferrer" aria-label="COMMUNITY GALLERY">
+            <img src="1.png" alt="COMMUNITY GALLERY icon">
+          </a>
           <div class="label">COMMUNITY<br>GALLERY</div>
-        </a>
+        </div>
 
-        <a class="icon" href="https://ryku-santa-arc.vercel.app/" target="_blank" rel="noopener noreferrer">
-          <img src="1.png" alt="SANTA GALLERY icon">
+        <div class="icon">
+          <a class="icon-link" href="https://ryku-santa-arc.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="SANTA GALLERY">
+            <img src="1.png" alt="SANTA GALLERY icon">
+          </a>
           <div class="label">SANTA<br>GALLERY</div>
-        </a>
+        </div>
 
-        <button class="icon icon--irina" type="button" id="openIrina">
-          <img src="1.png" alt="PFP by Irina icon">
+        <div class="icon icon--irina">
+          <button class="icon-link" type="button" id="openIrina" aria-label="PFP BY IRINA">
+            <img src="1.png" alt="PFP by Irina icon">
+          </button>
           <div class="label">PFP BY<br>IRINA</div>
-        </button>
+        </div>
+
+        <div class="icon icon--quiz">
+          <button class="icon-link" type="button" id="openQuiz" aria-label="LEARN & QUIZ">
+            <img src="1.png" alt="Learn & Quiz icon">
+          </button>
+          <div class="label">LEARN &amp;<br>QUIZ</div>
+        </div>
       </section>
     </div>
 
     <div class="dev-corner" aria-label="DEV icon">
-      <a class="icon" href="https://x.com/realsirandrew" target="_blank" rel="noopener noreferrer">
-        <img src="2.png" alt="DEV icon">
+      <div class="icon">
+        <a class="icon-link" href="https://x.com/realsirandrew" target="_blank" rel="noopener noreferrer" aria-label="DEV">
+          <img src="2.png" alt="DEV icon">
+        </a>
         <div class="label">DEV</div>
-      </a>
+      </div>
     </div>
   </main>
 
-  <div class="modal" id="irinaModal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal" id="appModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-overlay" data-close="true"></div>
 
     <div class="modal-panel" role="document">
       <div class="modal-topbar">
-        <p class="modal-title">PFP by Irina</p>
-        <button class="modal-close" type="button" id="closeIrina" aria-label="Close">×</button>
+        <p class="modal-title" id="modalTitle">Window</p>
+        <button class="modal-close" type="button" id="closeModal" aria-label="Close">×</button>
       </div>
 
-      <iframe class="modal-iframe" id="irinaFrame" src="" title="PFP by Irina"></iframe>
+      <iframe class="modal-iframe" id="modalFrame" src="" title="Modal content"></iframe>
     </div>
   </div>
 
@@ -399,17 +475,21 @@
       }
     }, TICK_MS);
 
-    const openIrina = document.getElementById('openIrina');
-    const modal = document.getElementById('irinaModal');
-    const closeIrina = document.getElementById('closeIrina');
-    const frame = document.getElementById('irinaFrame');
+    const modal = document.getElementById('appModal');
+    const closeModalBtn = document.getElementById('closeModal');
+    const frame = document.getElementById('modalFrame');
+    const modalTitle = document.getElementById('modalTitle');
 
-    function openModal() {
-      frame.src = 'irina.html';
+    let lastFocusEl = null;
+
+    function openModal({ title, src, focusBackTo }) {
+      lastFocusEl = focusBackTo || null;
+      modalTitle.textContent = title;
+      frame.src = src;
       modal.classList.add('is-open');
       modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
-      closeIrina.focus();
+      closeModalBtn.focus();
     }
 
     function closeModal() {
@@ -417,11 +497,10 @@
       modal.setAttribute('aria-hidden', 'true');
       frame.src = '';
       document.body.style.overflow = 'auto';
-      openIrina.focus();
+      if (lastFocusEl) lastFocusEl.focus();
     }
 
-    openIrina.addEventListener('click', openModal);
-    closeIrina.addEventListener('click', closeModal);
+    closeModalBtn.addEventListener('click', closeModal);
 
     modal.addEventListener('click', (e) => {
       if (e.target && e.target.dataset && e.target.dataset.close === 'true') closeModal();
@@ -430,7 +509,17 @@
     window.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
     });
+
+    const openIrina = document.getElementById('openIrina');
+    const openQuiz = document.getElementById('openQuiz');
+
+    openIrina.addEventListener('click', () => {
+      openModal({ title: 'PFP by Irina', src: 'irina.html', focusBackTo: openIrina });
+    });
+
+    openQuiz.addEventListener('click', () => {
+      openModal({ title: 'Learn & Quiz', src: 'quiz.html', focusBackTo: openQuiz });
+    });
   </script>
 </body>
 </html>
-

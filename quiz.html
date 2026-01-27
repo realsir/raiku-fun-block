@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DEV BUILDING…</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg: #c0ff38;
+      --text: #0b0b0b;
+    }
+
+    *{ box-sizing: border-box; }
+
+    html, body{ height: 100%; }
+
+    body{
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .msg{
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: clamp(22px, 4vw, 54px);
+      text-shadow: 0 2px 0 rgba(255,255,255,0.55);
+      user-select: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="msg">DEV BUILDING...</div>
+</body>
+</html>
