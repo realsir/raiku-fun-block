@@ -33,7 +33,7 @@
       overflow: hidden;
 
       background-color: #c0ff38;
-      background-image: url("fon.png");
+      background-image: none;
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
@@ -49,6 +49,7 @@
       place-items: center;
       background: transparent;
       padding: 18px;
+      z-index: 100;
     }
 
     .loader{
@@ -149,7 +150,6 @@
       grid-template-columns: repeat(5, var(--tile));
       justify-content: start;
       align-content: start;
-
       gap: 20px 40px;
     }
 
@@ -257,13 +257,102 @@
     }
 
     .icon--irina{ grid-column: 1; }
-    .icon--quiz{ grid-column: 1; } 
+    .icon--pinki{ grid-column: 2; }
+    .icon--quiz{ grid-column: 1; }
 
     .dev-corner{
       position: fixed;
       right: 18px;
       bottom: 16px;
       z-index: 12;
+    }
+
+    .bg-picker{
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 20;
+
+      width: min(270px, calc(100vw - 28px));
+      padding: 10px 10px 8px 10px;
+
+      border-radius: 14px;
+      background: rgba(255,255,255,0.20);
+      border: 1px solid rgba(255,255,255,0.30);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 18px 55px rgba(0,0,0,0.18);
+      user-select: none;
+    }
+
+    .bg-picker summary{
+      list-style: none;
+      cursor: pointer;
+      outline: none;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-shadow: 0 2px 0 rgba(255,255,255,0.35);
+    }
+
+    .bg-picker summary::-webkit-details-marker{ display: none; }
+
+    .bg-picker summary::after{
+      content: "▶";
+      display: inline-block;
+      transform: rotate(0deg);
+      transition: transform 160ms ease;
+      opacity: 0.85;
+    }
+
+    .bg-picker[open] summary::after{
+      transform: rotate(90deg);
+    }
+
+    .bg-picker summary:focus-visible{
+      outline: 3px solid rgba(255,255,255,0.55);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
+
+    .bg-picker-body{ padding-top: 10px; }
+
+    .bg-picker-row{
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .bg-option{
+      border: 1px solid rgba(0,0,0,0.18);
+      background: rgba(255,255,255,0.70);
+      border-radius: 12px;
+      padding: 8px 10px;
+      font-weight: 900;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .bg-option:hover{ background: rgba(255,255,255,0.88); }
+
+    .bg-option[aria-pressed="true"]{
+      background: rgba(0,0,0,0.78);
+      color: #fff;
+      border-color: rgba(0,0,0,0.35);
+    }
+
+    .bg-option:focus-visible{
+      outline: 3px solid rgba(255,255,255,0.55);
+      outline-offset: 2px;
     }
 
     .modal{
@@ -338,6 +427,7 @@
     @media (prefers-reduced-motion: reduce){
       .blink{ animation: none; }
       .icon-link img{ transition: none !important; }
+      .bg-picker summary::after{ transition: none; }
     }
   </style>
 </head>
@@ -357,6 +447,18 @@
 
   <main class="desktop" id="desktop" aria-label="Desktop links">
     <div class="title"><span class="blink">RAIKU FUN BLOCK</span></div>
+
+    <details class="bg-picker" aria-label="Background selection">
+      <summary>Background MENU</summary>
+      <div class="bg-picker-body">
+        <div class="bg-picker-row" role="group" aria-label="Choose background">
+          <button class="bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon.png">RYKU</button>
+          <button class="bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon-2.png">CHADS</button>
+          <button class="bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon-3.png">PINEAPPLES</button>
+          <button class="bg-option" type="button" aria-pressed="true"  data-type="color" data-color="#c0ff38">OG</button>
+        </div>
+      </div>
+    </details>
 
     <div class="desktop-inner">
       <section class="icon-grid" aria-label="Main icons">
@@ -414,6 +516,13 @@
             <img src="1.png" alt="PFP by Irina icon">
           </button>
           <div class="label">PFP BY<br>IRINA</div>
+        </div>
+
+        <div class="icon icon--pinki">
+          <button class="icon-link" type="button" id="openPinki" aria-label="PFP BY PINKI">
+            <img src="1.png" alt="PFP by Pinki icon">
+          </button>
+          <div class="label">PFP BY<br>PINKI</div>
         </div>
 
         <div class="icon icon--quiz">
@@ -511,15 +620,50 @@
     });
 
     const openIrina = document.getElementById('openIrina');
+    const openPinki = document.getElementById('openPinki');
     const openQuiz = document.getElementById('openQuiz');
 
     openIrina.addEventListener('click', () => {
       openModal({ title: 'PFP by Irina', src: 'irina.html', focusBackTo: openIrina });
     });
 
+    openPinki.addEventListener('click', () => {
+      openModal({ title: 'PFP by Pinki', src: 'pinki.html', focusBackTo: openPinki });
+    });
+
     openQuiz.addEventListener('click', () => {
       openModal({ title: 'Learn & Quiz', src: 'quiz.html', focusBackTo: openQuiz });
     });
+
+    const bgButtons = Array.from(document.querySelectorAll('.bg-option'));
+
+    function applyBackgroundFromButton(btn){
+      const type = btn.dataset.type;
+
+      if (type === 'image') {
+        const fileName = btn.dataset.bg;
+        document.body.style.backgroundColor = '#c0ff38';
+        document.body.style.backgroundImage = `url("${fileName}")`;
+      } else {
+        const color = btn.dataset.color || '#c0ff38';
+        document.body.style.backgroundColor = color;
+        document.body.style.backgroundImage = 'none';
+      }
+    }
+
+    function setPressed(activeBtn){
+      bgButtons.forEach(btn => btn.setAttribute('aria-pressed', btn === activeBtn ? 'true' : 'false'));
+    }
+
+    bgButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyBackgroundFromButton(btn);
+        setPressed(btn);
+      });
+    });
+
+    const defaultBtn = bgButtons.find(b => b.getAttribute('aria-pressed') === 'true');
+    if (defaultBtn) applyBackgroundFromButton(defaultBtn);
   </script>
 </body>
 </html>

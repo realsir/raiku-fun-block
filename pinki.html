@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pinky PFP</title>
+
+  <style>
+    :root{
+      --soft: rgba(0,0,0,0.25);
+      --stroke: rgba(255,255,255,0.18);
+      --glass: rgba(255,255,255,0.18);
+
+      --caption: #c0ff38;
+      --outline: rgba(0,0,0,0.85);
+    }
+
+    *{ box-sizing: border-box; }
+
+    html, body{
+      height: 100%;
+      margin: 0;
+      background: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    .wrap{ padding: 22px; }
+
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(4, minmax(140px, 1fr));
+      gap: 26px 30px;
+      justify-items: center;
+      align-items: start;
+    }
+
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: repeat(3, minmax(140px, 1fr)); }
+    }
+    @media (max-width: 620px){
+      .grid{ grid-template-columns: repeat(2, minmax(150px, 1fr)); }
+    }
+
+    a.card{
+      width: 170px;
+      text-decoration: none;
+      color: inherit;
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 160ms ease, filter 160ms ease;
+      outline: none;
+    }
+
+    a.card:hover,
+    a.card:focus-visible{
+      transform: translateY(-2px) scale(1.02);
+      filter: drop-shadow(0 10px 18px var(--soft));
+    }
+
+    figure{
+      margin: 0;
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+    }
+
+    .thumb{
+      width: 120px;
+      height: 120px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: var(--glass);
+      border: 1px solid var(--stroke);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+      backdrop-filter: blur(2px);
+    }
+
+    .thumb img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    figcaption{
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.2;
+      letter-spacing: 0.2px;
+
+      color: var(--caption);
+      text-shadow:
+        -0.75px  0       0 var(--outline),
+         0.75px  0       0 var(--outline),
+         0      -0.75px  0 var(--outline),
+         0       0.75px  0 var(--outline);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="grid" aria-label="Pinky images">
+      <a class="card" href="pinky-1.png" target="_blank" rel="noopener noreferrer" aria-label="Open pinky-1.png">
+        <figure>
+          <div class="thumb"><img src="pinky-1.png" alt="Frianowzki" loading="lazy"></div>
+          <figcaption>Frianowzki</figcaption>
+        </figure>
+      </a>
+
+      <a class="card" href="pinky-2.png" target="_blank" rel="noopener noreferrer" aria-label="Open pinky-2.png">
+        <figure>
+          <div class="thumb"><img src="pinky-2.png" alt="Serenade" loading="lazy"></div>
+          <figcaption>Serenade</figcaption>
+        </figure>
+      </a>
+
+      <a class="card" href="pinky-3.png" target="_blank" rel="noopener noreferrer" aria-label="Open pinky-3.png">
+        <figure>
+          <div class="thumb"><img src="pinky-3.png" alt="ORKA" loading="lazy"></div>
+          <figcaption>ORKA</figcaption>
+        </figure>
+      </a>
+
+      <a class="card" href="pinky-4.png" target="_blank" rel="noopener noreferrer" aria-label="Open pinky-4.png">
+        <figure>
+          <div class="thumb"><img src="pinky-4.png" alt="lightdayak" loading="lazy"></div>
+          <figcaption>lightdayak</figcaption>
+        </figure>
+      </a>
+
+      <a class="card" href="pinky-5.png" target="_blank" rel="noopener noreferrer" aria-label="Open pinky-5.png">
+        <figure>
+          <div class="thumb"><img src="pinky-5.png" alt="ASHA" loading="lazy"></div>
+          <figcaption>ASHA</figcaption>
+        </figure>
+      </a>
+
+      <a class="card" href="pinky-6.png" target="_blank" rel="noopener noreferrer" aria-label="Open pinky-6.png">
+        <figure>
+          <div class="thumb"><img src="pinky-6.png" alt="Kairo" loading="lazy"></div>
+          <figcaption>Kairo</figcaption>
+        </figure>
+      </a>
+
+      <a class="card" href="pinky-7.png" target="_blank" rel="noopener noreferrer" aria-label="Open pinky-7.png">
+        <figure>
+          <div class="thumb"><img src="pinky-7.png" alt="jun" loading="lazy"></div>
+          <figcaption>jun</figcaption>
+        </figure>
+      </a>
+
+      <a class="card" href="pinky-8.png" target="_blank" rel="noopener noreferrer" aria-label="Open pinky-8.png">
+        <figure>
+          <div class="thumb"><img src="pinky-8.png" alt="Zimy" loading="lazy"></div>
+          <figcaption>Zimy</figcaption>
+        </figure>
+      </a>
+    </div>
+  </div>
+</body>
+</html>
