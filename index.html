@@ -7,7 +7,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 
   <style>
     :root{
@@ -23,6 +27,14 @@
 
       --tile: 78px;
       --tile-radius: 16px;
+
+      --ui-font: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      --title-font: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      --title-scale: 1;
+
+      --setup-width: 300px;
+      --setup-handle: 44px;
+      --setup-gap: 10px;
     }
 
     *{ box-sizing: border-box; }
@@ -39,7 +51,7 @@
       background-size: cover;
 
       color: var(--text);
-      font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      font-family: var(--ui-font);
     }
 
     .loading-screen{
@@ -121,19 +133,27 @@
       transform: translateX(-50%);
       z-index: 10;
 
+      max-width: calc(100vw - 28px);
+      padding: 0 6px;
+
+      font-family: var(--title-font);
       text-transform: uppercase;
       font-weight: 800;
       letter-spacing: 0.18em;
-      font-size: clamp(30px, 4.8vw, 64px);
+      font-size: calc(clamp(30px, 4.8vw, 64px) * var(--title-scale));
       line-height: 1;
       user-select: none;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
 
       text-shadow:
         0 2px 0 rgba(255,255,255,0.55),
         0 10px 24px rgba(0,0,0,0.22);
     }
 
-    .blink{ animation: blink 1.2s ease-in-out infinite; }
+    .blink{ animation: blink 1.2s ease-in-out infinite; display: inline-block; }
     @keyframes blink{
       0%, 100% { opacity: 1; }
       50% { opacity: 0.35; }
@@ -162,15 +182,13 @@
     }
 
     .icon{
-      width: auto;
+      width: var(--tile);
       display: grid;
       justify-items: center;
       gap: 8px;
-
       padding: 0;
       background: transparent;
       border: none;
-
       cursor: default;
       user-select: none;
     }
@@ -183,6 +201,7 @@
       outline: none;
       -webkit-tap-highlight-color: transparent;
       cursor: pointer;
+      flex: none;
     }
 
     button.icon-link{
@@ -200,7 +219,9 @@
     .icon-link img{
       width: var(--tile);
       height: var(--tile);
+
       object-fit: contain;
+
       user-select: none;
       -webkit-user-drag: none;
 
@@ -239,9 +260,9 @@
     }
 
     .label{
-      background: transparent;
-      padding: 0;
+      width: var(--tile);
       margin: 0;
+      padding: 0;
       text-align: center;
 
       font-size: 12px;
@@ -250,6 +271,12 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       user-select: none;
+
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow-wrap: anywhere;
 
       text-shadow:
         0 2px 0 rgba(255,255,255,0.55),
@@ -267,70 +294,106 @@
       z-index: 12;
     }
 
-    .bg-picker{
+
+    .setup-handle{
       position: fixed;
-      top: 14px;
-      right: 14px;
-      z-index: 20;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      z-index: 1000;
 
-      width: min(270px, calc(100vw - 28px));
-      padding: 10px 10px 8px 10px;
+      width: var(--setup-handle);
+      height: 160px;
 
-      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      border-radius: 14px 0 0 14px;
+      background: rgba(255,255,255,0.26);
+      border: 1px solid rgba(255,255,255,0.32);
+      border-right: none;
+
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .setup-handle:focus-visible{
+      outline: 3px solid rgba(255,255,255,0.65);
+      outline-offset: 4px;
+    }
+
+    .setup-gear{
+      font-weight: 900;
+      font-size: 16px;
+      opacity: 0.9;
+      line-height: 1;
+    }
+
+    .setup-letters{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1;
+      opacity: 0.72;
+    }
+
+    .setup-panel{
+      position: fixed;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%) translateX(calc(100% + var(--setup-gap)));
+      z-index: 999;
+
+      width: var(--setup-width);
+      padding: 10px;
+
+      border-radius: 14px 0 0 14px;
       background: rgba(255,255,255,0.20);
       border: 1px solid rgba(255,255,255,0.30);
+      border-right: none;
+
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 18px 55px rgba(0,0,0,0.18);
-      user-select: none;
+
+      transition: transform 220ms ease;
     }
 
-    .bg-picker summary{
-      list-style: none;
-      cursor: pointer;
-      outline: none;
+    .setup-panel.is-open{
+      transform: translateY(-50%) translateX(0);
+    }
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+    .setup-body{ padding: 6px; }
 
+    .setup-section + .setup-section{ margin-top: 10px; }
+
+    .setup-section-title{
+      margin: 0 0 8px 0;
       font-size: 11px;
       letter-spacing: 0.14em;
       font-weight: 900;
       text-transform: uppercase;
+      opacity: 0.92;
       text-shadow: 0 2px 0 rgba(255,255,255,0.35);
+      user-select: none;
     }
 
-    .bg-picker summary::-webkit-details-marker{ display: none; }
-
-    .bg-picker summary::after{
-      content: "▶";
-      display: inline-block;
-      transform: rotate(0deg);
-      transition: transform 160ms ease;
-      opacity: 0.85;
-    }
-
-    .bg-picker[open] summary::after{
-      transform: rotate(90deg);
-    }
-
-    .bg-picker summary:focus-visible{
-      outline: 3px solid rgba(255,255,255,0.55);
-      outline-offset: 3px;
-      border-radius: 10px;
-    }
-
-    .bg-picker-body{ padding-top: 10px; }
-
-    .bg-picker-row{
+    .setup-row{
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
     }
 
-    .bg-option{
+    .setup-option{
       border: 1px solid rgba(0,0,0,0.18);
       background: rgba(255,255,255,0.70);
       border-radius: 12px;
@@ -340,17 +403,18 @@
       letter-spacing: 0.12em;
       text-transform: uppercase;
       cursor: pointer;
+      font-family: var(--ui-font);
     }
 
-    .bg-option:hover{ background: rgba(255,255,255,0.88); }
+    .setup-option:hover{ background: rgba(255,255,255,0.88); }
 
-    .bg-option[aria-pressed="true"]{
+    .setup-option[aria-pressed="true"]{
       background: rgba(0,0,0,0.78);
       color: #fff;
       border-color: rgba(0,0,0,0.35);
     }
 
-    .bg-option:focus-visible{
+    .setup-option:focus-visible{
       outline: 3px solid rgba(255,255,255,0.55);
       outline-offset: 2px;
     }
@@ -402,6 +466,7 @@
       font-weight: 800;
       text-transform: uppercase;
       user-select: none;
+      font-family: var(--ui-font);
     }
 
     .modal-close{
@@ -413,6 +478,7 @@
       cursor: pointer;
       font-weight: 900;
       line-height: 1;
+      font-family: var(--ui-font);
     }
 
     .modal-iframe{
@@ -427,7 +493,7 @@
     @media (prefers-reduced-motion: reduce){
       .blink{ animation: none; }
       .icon-link img{ transition: none !important; }
-      .bg-picker summary::after{ transition: none; }
+      .setup-panel{ transition: none; }
     }
   </style>
 </head>
@@ -448,86 +514,105 @@
   <main class="desktop" id="desktop" aria-label="Desktop links">
     <div class="title"><span class="blink">RAIKU FUN BLOCK</span></div>
 
-    <details class="bg-picker" aria-label="Background selection">
-      <summary>Background MENU</summary>
-      <div class="bg-picker-body">
-        <div class="bg-picker-row" role="group" aria-label="Choose background">
-          <button class="bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon.png">RYKU</button>
-          <button class="bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon-2.png">CHADS</button>
-          <button class="bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon-3.png">PINEAPPLES</button>
-          <button class="bg-option" type="button" aria-pressed="true"  data-type="color" data-color="#c0ff38">OG</button>
+    <button class="setup-handle" id="setupToggle" type="button" aria-controls="setupPanel" aria-expanded="false" aria-label="Toggle setup">
+      <div class="setup-gear" aria-hidden="true">⚙</div>
+      <div class="setup-letters" aria-hidden="true">
+        <span>S</span><span>E</span><span>T</span><span>U</span><span>P</span>
+      </div>
+    </button>
+
+    <aside class="setup-panel" id="setupPanel" aria-label="Setup panel">
+      <div class="setup-body">
+        <div class="setup-section" aria-label="Background section">
+          <p class="setup-section-title">BACKGROUND</p>
+          <div class="setup-row" role="group" aria-label="Choose background">
+            <button class="setup-option bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon.png">RYKU</button>
+            <button class="setup-option bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon-2.png">CHADS</button>
+            <button class="setup-option bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon-3.png">PINEAPPLES</button>
+            <button class="setup-option bg-option" type="button" aria-pressed="true"  data-type="color" data-color="#c0ff38">OG</button>
+          </div>
+        </div>
+
+        <div class="setup-section" aria-label="Font section">
+          <p class="setup-section-title">FONT</p>
+          <div class="setup-row" role="group" aria-label="Choose font">
+            <button class="setup-option font-option" type="button" aria-pressed="true"  data-font="space">SPACE</button>
+            <button class="setup-option font-option" type="button" aria-pressed="false" data-font="bebas">BEBAS</button>
+            <button class="setup-option font-option" type="button" aria-pressed="false" data-font="jetbrains">MONO</button>
+            <button class="setup-option font-option" type="button" aria-pressed="false" data-font="vt323">8BIT</button>
+          </div>
         </div>
       </div>
-    </details>
+    </aside>
 
     <div class="desktop-inner">
       <section class="icon-grid" aria-label="Main icons">
         <div class="icon">
-          <a class="icon-link" href="https://t.co/mqoCITn2Jv" target="_blank" rel="noopener noreferrer" aria-label="PINEAPPLE GAME">
-            <img src="1.png" alt="PINEAPPLE GAME icon">
+          <a class="icon-link" href="https://t.co/mqoCITn2Jv" target="_blank" rel="noopener noreferrer">
+            <img src="i-1.png" alt="PINEAPPLE GAME">
           </a>
           <div class="label">PINEAPPLE GAME</div>
         </div>
 
         <div class="icon">
-          <a class="icon-link" href="https://t.co/rQmXlSTblv" target="_blank" rel="noopener noreferrer" aria-label="RYKU RUN">
-            <img src="1.png" alt="RYKU RUN icon">
+          <a class="icon-link" href="https://t.co/rQmXlSTblv" target="_blank" rel="noopener noreferrer">
+            <img src="i-2.png" alt="RYKU RUN">
           </a>
           <div class="label">RYKU RUN</div>
         </div>
 
         <div class="icon">
-          <a class="icon-link" href="https://t.co/78mbgUrMBu" target="_blank" rel="noopener noreferrer" aria-label="RYKU BIRD">
-            <img src="1.png" alt="RYKU BIRD icon">
+          <a class="icon-link" href="https://t.co/78mbgUrMBu" target="_blank" rel="noopener noreferrer">
+            <img src="i-3.png" alt="RYKU BIRD">
           </a>
           <div class="label">RYKU BIRD</div>
         </div>
 
         <div class="icon">
-          <a class="icon-link" href="https://ryku-snake.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="RYKU SNAKE">
-            <img src="1.png" alt="RYKU SNAKE icon">
+          <a class="icon-link" href="https://ryku-snake.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <img src="i-4.png" alt="RYKU SNAKE">
           </a>
           <div class="label">RYKU SNAKE</div>
         </div>
 
         <div class="icon">
-          <a class="icon-link" href="https://ryku-strike.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="RYKU STRIKE">
-            <img src="1.png" alt="RYKU STRIKE icon">
+          <a class="icon-link" href="https://ryku-strike.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <img src="i-5.png" alt="RYKU STRIKE">
           </a>
           <div class="label">RYKU STRIKE</div>
         </div>
 
         <div class="icon">
-          <a class="icon-link" href="https://t.co/jVZc5HzGww" target="_blank" rel="noopener noreferrer" aria-label="COMMUNITY GALLERY">
-            <img src="1.png" alt="COMMUNITY GALLERY icon">
+          <a class="icon-link" href="https://t.co/jVZc5HzGww" target="_blank" rel="noopener noreferrer">
+            <img src="i-6.png" alt="COMMUNITY GALLERY">
           </a>
           <div class="label">COMMUNITY<br>GALLERY</div>
         </div>
 
         <div class="icon">
-          <a class="icon-link" href="https://ryku-santa-arc.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="SANTA GALLERY">
-            <img src="1.png" alt="SANTA GALLERY icon">
+          <a class="icon-link" href="https://ryku-santa-arc.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <img src="i-7.png" alt="SANTA GALLERY">
           </a>
           <div class="label">SANTA<br>GALLERY</div>
         </div>
 
         <div class="icon icon--irina">
-          <button class="icon-link" type="button" id="openIrina" aria-label="PFP BY IRINA">
-            <img src="1.png" alt="PFP by Irina icon">
+          <button class="icon-link" type="button" id="openIrina">
+            <img src="i-8.png" alt="PFP BY IRINA">
           </button>
           <div class="label">PFP BY<br>IRINA</div>
         </div>
 
         <div class="icon icon--pinki">
-          <button class="icon-link" type="button" id="openPinki" aria-label="PFP BY PINKI">
-            <img src="1.png" alt="PFP by Pinki icon">
+          <button class="icon-link" type="button" id="openPinki">
+            <img src="i-9.png" alt="PFP BY PINKI">
           </button>
           <div class="label">PFP BY<br>PINKI</div>
         </div>
 
         <div class="icon icon--quiz">
-          <button class="icon-link" type="button" id="openQuiz" aria-label="LEARN & QUIZ">
-            <img src="1.png" alt="Learn & Quiz icon">
+          <button class="icon-link" type="button" id="openQuiz">
+            <img src="i-10.png" alt="LEARN & QUIZ">
           </button>
           <div class="label">LEARN &amp;<br>QUIZ</div>
         </div>
@@ -536,8 +621,8 @@
 
     <div class="dev-corner" aria-label="DEV icon">
       <div class="icon">
-        <a class="icon-link" href="https://x.com/realsirandrew" target="_blank" rel="noopener noreferrer" aria-label="DEV">
-          <img src="2.png" alt="DEV icon">
+        <a class="icon-link" href="https://x.com/realsirandrew" target="_blank" rel="noopener noreferrer">
+          <img src="2.png" alt="DEV">
         </a>
         <div class="label">DEV</div>
       </div>
@@ -546,13 +631,11 @@
 
   <div class="modal" id="appModal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-overlay" data-close="true"></div>
-
     <div class="modal-panel" role="document">
       <div class="modal-topbar">
         <p class="modal-title" id="modalTitle">Window</p>
         <button class="modal-close" type="button" id="closeModal" aria-label="Close">×</button>
       </div>
-
       <iframe class="modal-iframe" id="modalFrame" src="" title="Modal content"></iframe>
     </div>
   </div>
@@ -583,6 +666,29 @@
         document.body.style.overflow = 'auto';
       }
     }, TICK_MS);
+
+    const setupToggle = document.getElementById('setupToggle');
+    const setupPanel = document.getElementById('setupPanel');
+
+    function setSetupOpen(isOpen){
+      setupPanel.classList.toggle('is-open', isOpen);
+      setupToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    setupToggle.addEventListener('click', () => {
+      setSetupOpen(!setupPanel.classList.contains('is-open'));
+    });
+
+    window.addEventListener('mousedown', (e) => {
+      if (!setupPanel.classList.contains('is-open')) return;
+      const insidePanel = setupPanel.contains(e.target);
+      const insideHandle = setupToggle.contains(e.target);
+      if (!insidePanel && !insideHandle) setSetupOpen(false);
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setSetupOpen(false);
+    });
 
     const modal = document.getElementById('appModal');
     const closeModalBtn = document.getElementById('closeModal');
@@ -639,7 +745,6 @@
 
     function applyBackgroundFromButton(btn){
       const type = btn.dataset.type;
-
       if (type === 'image') {
         const fileName = btn.dataset.bg;
         document.body.style.backgroundColor = '#c0ff38';
@@ -651,19 +756,45 @@
       }
     }
 
-    function setPressed(activeBtn){
-      bgButtons.forEach(btn => btn.setAttribute('aria-pressed', btn === activeBtn ? 'true' : 'false'));
+    function setPressed(buttons, activeBtn){
+      buttons.forEach(btn => btn.setAttribute('aria-pressed', btn === activeBtn ? 'true' : 'false'));
     }
 
     bgButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         applyBackgroundFromButton(btn);
-        setPressed(btn);
+        setPressed(bgButtons, btn);
       });
     });
 
-    const defaultBtn = bgButtons.find(b => b.getAttribute('aria-pressed') === 'true');
-    if (defaultBtn) applyBackgroundFromButton(defaultBtn);
+    const defaultBgBtn = bgButtons.find(b => b.getAttribute('aria-pressed') === 'true');
+    if (defaultBgBtn) applyBackgroundFromButton(defaultBgBtn);
+
+    const fontButtons = Array.from(document.querySelectorAll('.font-option'));
+
+    const FONT_PRESETS = {
+      space: { ui: '"Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif', title: '"Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif', titleScale: 1 },
+      bebas: { ui: '"Bebas Neue", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif', title: '"Bebas Neue", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif', titleScale: 1 },
+      jetbrains: { ui: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace', title: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace', titleScale: 1 },
+      vt323: { ui: '"VT323", monospace', title: '"VT323", monospace', titleScale: 1 }
+    };
+
+    function applyFontPreset(key){
+      const preset = FONT_PRESETS[key] || FONT_PRESETS.space;
+      document.documentElement.style.setProperty('--ui-font', preset.ui);
+      document.documentElement.style.setProperty('--title-font', preset.title);
+      document.documentElement.style.setProperty('--title-scale', String(preset.titleScale));
+    }
+
+    fontButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        applyFontPreset(btn.dataset.font);
+        setPressed(fontButtons, btn);
+      });
+    });
+
+    const defaultFontBtn = fontButtons.find(b => b.getAttribute('aria-pressed') === 'true');
+    if (defaultFontBtn) applyFontPreset(defaultFontBtn.dataset.font);
   </script>
 </body>
 </html>
