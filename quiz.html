@@ -3,45 +3,233 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DEV BUILDING…</title>
+  <title>Folders</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
       --bg: #c0ff38;
       --text: #0b0b0b;
+      --line: rgba(11,11,11,0.28);
+      --item-bg: rgba(255,255,255,0.55);
+      --item-hover: rgba(255,255,255,0.85);
     }
 
-    *{ box-sizing: border-box; }
+    *{
+      box-sizing: border-box;
+    }
 
-    html, body{ height: 100%; }
+    html, body{
+      height: 100%;
+    }
 
     body{
       margin: 0;
       background: var(--bg);
       color: var(--text);
       font-family: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-
       display: flex;
-      align-items: center;
-      justify-content: center;
+      min-height: 100vh;
     }
 
-    .msg{
-      font-weight: 900;
-      letter-spacing: 0.18em;
+    .layout{
+      display: flex;
+      width: 100%;
+      height: 100vh;
+    }
+
+    .sidebar{
+      width: 260px;
+      max-width: 30%;
+      padding: 18px 16px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sidebar-title{
+      font-size: 13px;
       text-transform: uppercase;
-      font-size: clamp(22px, 4vw, 54px);
-      text-shadow: 0 2px 0 rgba(255,255,255,0.55);
-      user-select: none;
+      letter-spacing: 0.1em;
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+
+    .folder{
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      text-align: left;
+      padding: 10px 8px;
+      border-radius: 10px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .folder:hover{
+      background: rgba(255,255,255,0.3);
+    }
+
+    .folder.active{
+      background: rgba(255,255,255,0.7);
+    }
+
+    .content{
+      flex: 1;
+      padding: 18px 18px 24px;
+      overflow-y: auto;
+    }
+
+    .content-title{
+      margin: 0 0 14px;
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .list{
+      display: grid;
+      gap: 10px;
+    }
+
+    .list-item,
+    .list-link{
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: var(--item-bg);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      line-height: 1.3;
+      transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+      word-break: break-word;
+    }
+
+    .list-link:hover{
+      background: var(--item-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .panel{
+      display: none;
+    }
+
+    .panel.active{
+      display: block;
+    }
+
+    @media (max-width: 800px){
+      .layout{
+        flex-direction: column;
+        height: auto;
+      }
+
+      .sidebar{
+        width: 100%;
+        max-width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .folder{
+        padding-inline: 10px;
+      }
     }
   </style>
 </head>
-
 <body>
-  <div class="msg">DEV BUILDING...</div>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">Folders</div>
+
+      <button class="folder active" data-panel="intern-articles">intern article's</button>
+      <button class="folder" data-panel="quiz">quiz</button>
+      <button class="folder" data-panel="redacted">[redacted]</button>
+    </aside>
+
+    <main class="content">
+      <h1 class="content-title" id="contentTitle">intern article's</h1>
+
+      <section class="panel active" id="intern-articles">
+        <div class="list">
+          <a class="list-link" href="https://x.com/raikucom/status/2031024285360251195" target="_blank" rel="noopener noreferrer">Are Solana Validators Profitable?</a>
+          <a class="list-link" href="https://x.com/raikucom/status/2028519410223235114" target="_blank" rel="noopener noreferrer">Native Stake Is Dead: Why LSTs are Taking Over</a>
+          <a class="list-link" href="https://x.com/raikucom/status/2026054794331443387" target="_blank" rel="noopener noreferrer">How to Choose Your RPC</a>
+          <a class="list-link" href="https://x.com/raikucom/status/2023553655626998080" target="_blank" rel="noopener noreferrer">MCL v PBS: The Proposer Monopoly Fight</a>
+          <a class="list-link" href="https://x.com/raikucom/status/2020965984237224423" target="_blank" rel="noopener noreferrer">Solana will beat TradFi, here’s how.</a>
+          <a class="list-link" href="https://x.com/raikucom/status/2018360253641863244" target="_blank" rel="noopener noreferrer">Alpenglow: The Solana Upgrade That Rivals NASDAQ</a>
+          <a class="list-link" href="https://x.com/raikucom/status/2015812917921280466" target="_blank" rel="noopener noreferrer">What are Solana’s Execution Limits?</a>
+          <a class="list-link" href="https://x.com/raikucom/status/2013280488622862443" target="_blank" rel="noopener noreferrer">How Are Solana Fees So Gosh-Dang Cheap?</a>
+          <a class="list-link" href="https://x.com/raikucom/status/2010728528749252912" target="_blank" rel="noopener noreferrer">Why Do Solana Apps Keep Winning?</a>
+          <a class="list-link" href="https://x.com/raikucom/status/2000931378339152154" target="_blank" rel="noopener noreferrer">What's In Your Account: Understanding The Solana Programming Model</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1998030687786463529" target="_blank" rel="noopener noreferrer">Institutions Are Here</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1995538734935150940" target="_blank" rel="noopener noreferrer">Downtime is a Meme</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1990781434714374267" target="_blank" rel="noopener noreferrer">Dawn Labs Joins Raiku as Launch Partner</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1987990350569627714" target="_blank" rel="noopener noreferrer">Figment joins Raiku as Launch Partner</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1985454360349065355" target="_blank" rel="noopener noreferrer">Chorus One Joins Raiku as Validator Partner</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1981455266773422503" target="_blank" rel="noopener noreferrer">Raiku: Determinism for Payments</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1980366743378825654" target="_blank" rel="noopener noreferrer">H2O Nodes Joins Raiku as Launch Partner</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1978916763396907442" target="_blank" rel="noopener noreferrer">Raiku: The Deterministic Execution Layer for Perp DEXs</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1976378909655445815" target="_blank" rel="noopener noreferrer">AOT/JIT: How to Prevent Transactions from Failing on Solana</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1973843113941631139" target="_blank" rel="noopener noreferrer">Raiku's Ackermann Sidecar</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1968661349078319597" target="_blank" rel="noopener noreferrer">Everstake Joins Raiku as Validator Launch Partner</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1966124653451039156" target="_blank" rel="noopener noreferrer">Blockdaemon Joins Raiku as Validator Launch Partner</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1948432139596251527" target="_blank" rel="noopener noreferrer">Robinhood could have built on Solana: here's why</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1943728916843442194" target="_blank" rel="noopener noreferrer">Why Offchain Compute Matters on Solana</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1920451162131574973" target="_blank" rel="noopener noreferrer">Fast Determinist Settlement with Novel Transaction Types</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1909625101462483179" target="_blank" rel="noopener noreferrer">Livestream Recap: April 4</a>
+          <a class="list-link" href="https://x.com/raikucom/status/1904892749700358655" target="_blank" rel="noopener noreferrer">Meet Raiku, Solana's Coordination Layer</a>
+        </div>
+      </section>
+
+      <section class="panel" id="quiz">
+        <div class="list">
+          <div class="list-item">soon...</div>
+        </div>
+      </section>
+
+      <section class="panel" id="redacted">
+        <div class="list">
+          <div class="list-item">[sooooon 99.99999%]</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const folders = document.querySelectorAll('.folder');
+    const panels = document.querySelectorAll('.panel');
+    const title = document.getElementById('contentTitle');
+
+    const titles = {
+      'intern-articles': "intern article's",
+      'quiz': 'quiz',
+      'redacted': '[redacted]'
+    };
+
+    folders.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.dataset.panel;
+
+        folders.forEach(f => f.classList.remove('active'));
+        panels.forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(target).classList.add('active');
+        title.textContent = titles[target];
+      });
+    });
+  </script>
 </body>
 </html>

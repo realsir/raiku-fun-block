@@ -7,7 +7,6 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -17,21 +16,19 @@
     :root{
       --text: #0b0b0b;
       --overlay: rgba(0,0,0,0.55);
-
       --img-bg: rgba(255,255,255,0.14);
       --img-bg-hover: rgba(255,255,255,0.22);
       --img-border: rgba(255,255,255,0.26);
       --img-border-hover: rgba(255,255,255,0.44);
       --shadow: rgba(0,0,0,0.16);
       --ring: rgba(0,0,0,0.35);
-
       --tile: 78px;
       --tile-radius: 16px;
-
+      --col-gap: 40px;
+      --row-gap: 20px;
       --ui-font: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       --title-font: "Space Grotesk", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       --title-scale: 1;
-
       --setup-width: 300px;
       --setup-handle: 44px;
       --setup-gap: 10px;
@@ -43,13 +40,11 @@
       margin: 0;
       height: 100vh;
       overflow: hidden;
-
       background-color: #c0ff38;
       background-image: none;
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
-
       color: var(--text);
       font-family: var(--ui-font);
     }
@@ -132,10 +127,8 @@
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
-
       max-width: calc(100vw - 28px);
       padding: 0 6px;
-
       font-family: var(--title-font);
       text-transform: uppercase;
       font-weight: 800;
@@ -143,17 +136,16 @@
       font-size: calc(clamp(30px, 4.8vw, 64px) * var(--title-scale));
       line-height: 1;
       user-select: none;
-
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-
       text-shadow:
         0 2px 0 rgba(255,255,255,0.55),
         0 10px 24px rgba(0,0,0,0.22);
     }
 
     .blink{ animation: blink 1.2s ease-in-out infinite; display: inline-block; }
+
     @keyframes blink{
       0%, 100% { opacity: 1; }
       50% { opacity: 0.35; }
@@ -163,21 +155,50 @@
       position: absolute;
       inset: 0;
       padding: 110px 26px 26px 26px;
+      overflow-y: auto;
     }
 
     .icon-grid{
       display: grid;
-      grid-template-columns: repeat(5, var(--tile));
+      grid-template-columns: repeat(7, var(--tile));
+      grid-template-rows: auto auto auto auto;
       justify-content: start;
       align-content: start;
-      gap: 20px 40px;
+      gap: var(--row-gap) var(--col-gap);
     }
 
-    @media (max-width: 600px){
-      .desktop-inner{ padding-top: 100px; }
+    .icon--r1c1{ grid-column: 1; grid-row: 1; }
+    .icon--r1c2{ grid-column: 2; grid-row: 1; }
+    .icon--r1c3{ grid-column: 3; grid-row: 1; }
+    .icon--r1c4{ grid-column: 4; grid-row: 1; }
+    .icon--r1c5{ grid-column: 5; grid-row: 1; }
+    .icon--r1c6{ grid-column: 6; grid-row: 1; }
+    .icon--r1c7{ grid-column: 7; grid-row: 1; }
+    .icon--r2c1{ grid-column: 1; grid-row: 2; }
+    .icon--r2c2{ grid-column: 2; grid-row: 2; }
+    .icon--r3c1{ grid-column: 1; grid-row: 3; }
+    .icon--r3c2{ grid-column: 2; grid-row: 3; }
+    .icon--r4c1{ grid-column: 1; grid-row: 4; }
+    .icon--r4c2{ grid-column: 2; grid-row: 4; }
+
+    .dev-corner{
+      position: fixed;
+      right: 18px;
+      bottom: 60px;
+      z-index: 12;
+    }
+
+    @media (max-width: 680px){
+      :root{
+        --tile: 64px;
+        --col-gap: 18px;
+        --row-gap: 18px;
+      }
+
+      .desktop-inner{ padding-top: 90px; }
+
       .icon-grid{
-        grid-template-columns: repeat(2, var(--tile));
-        gap: 18px 14px;
+        grid-template-columns: repeat(4, var(--tile));
       }
     }
 
@@ -219,20 +240,15 @@
     .icon-link img{
       width: var(--tile);
       height: var(--tile);
-
       object-fit: contain;
-
       user-select: none;
       -webkit-user-drag: none;
-
       padding: 10px;
       border-radius: var(--tile-radius);
       background: var(--img-bg);
       border: 1px solid var(--img-border);
-
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
-
       box-shadow: 0 12px 18px var(--shadow);
       transition: transform 160ms ease, background 160ms ease, border-color 160ms ease, box-shadow 180ms ease;
       display: block;
@@ -264,36 +280,21 @@
       margin: 0;
       padding: 0;
       text-align: center;
-
       font-size: 12px;
       line-height: 1.10;
       font-weight: 900;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       user-select: none;
-
       overflow: hidden;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow-wrap: anywhere;
-
       text-shadow:
         0 2px 0 rgba(255,255,255,0.55),
         0 8px 18px rgba(0,0,0,0.16);
     }
-
-    .icon--irina{ grid-column: 1; }
-    .icon--pinki{ grid-column: 2; }
-    .icon--quiz{ grid-column: 1; }
-
-    .dev-corner{
-      position: fixed;
-      right: 18px;
-      bottom: 16px;
-      z-index: 12;
-    }
-
 
     .setup-handle{
       position: fixed;
@@ -301,21 +302,17 @@
       right: 0;
       transform: translateY(-50%);
       z-index: 1000;
-
       width: var(--setup-handle);
       height: 160px;
-
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: 10px;
-
       border-radius: 14px 0 0 14px;
       background: rgba(255,255,255,0.26);
       border: 1px solid rgba(255,255,255,0.32);
       border-right: none;
-
       cursor: pointer;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
@@ -338,7 +335,6 @@
       flex-direction: column;
       align-items: center;
       gap: 4px;
-
       font-size: 10px;
       font-weight: 900;
       text-transform: uppercase;
@@ -352,19 +348,15 @@
       right: 0;
       transform: translateY(-50%) translateX(calc(100% + var(--setup-gap)));
       z-index: 999;
-
       width: var(--setup-width);
       padding: 10px;
-
       border-radius: 14px 0 0 14px;
       background: rgba(255,255,255,0.20);
       border: 1px solid rgba(255,255,255,0.30);
       border-right: none;
-
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       box-shadow: 0 18px 55px rgba(0,0,0,0.18);
-
       transition: transform 220ms ease;
     }
 
@@ -373,7 +365,6 @@
     }
 
     .setup-body{ padding: 6px; }
-
     .setup-section + .setup-section{ margin-top: 10px; }
 
     .setup-section-title{
@@ -529,14 +520,14 @@
             <button class="setup-option bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon.png">RYKU</button>
             <button class="setup-option bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon-2.png">CHADS</button>
             <button class="setup-option bg-option" type="button" aria-pressed="false" data-type="image" data-bg="fon-3.png">PINEAPPLES</button>
-            <button class="setup-option bg-option" type="button" aria-pressed="true"  data-type="color" data-color="#c0ff38">OG</button>
+            <button class="setup-option bg-option" type="button" aria-pressed="true" data-type="color" data-color="#c0ff38">OG</button>
           </div>
         </div>
 
         <div class="setup-section" aria-label="Font section">
           <p class="setup-section-title">FONT</p>
           <div class="setup-row" role="group" aria-label="Choose font">
-            <button class="setup-option font-option" type="button" aria-pressed="true"  data-font="space">SPACE</button>
+            <button class="setup-option font-option" type="button" aria-pressed="true" data-font="space">SPACE</button>
             <button class="setup-option font-option" type="button" aria-pressed="false" data-font="bebas">BEBAS</button>
             <button class="setup-option font-option" type="button" aria-pressed="false" data-font="jetbrains">MONO</button>
             <button class="setup-option font-option" type="button" aria-pressed="false" data-font="vt323">8BIT</button>
@@ -547,74 +538,95 @@
 
     <div class="desktop-inner">
       <section class="icon-grid" aria-label="Main icons">
-        <div class="icon">
+        <div class="icon icon--r1c1">
           <a class="icon-link" href="https://t.co/mqoCITn2Jv" target="_blank" rel="noopener noreferrer">
             <img src="i-1.png" alt="PINEAPPLE GAME">
           </a>
           <div class="label">PINEAPPLE GAME</div>
         </div>
 
-        <div class="icon">
+        <div class="icon icon--r1c2">
           <a class="icon-link" href="https://t.co/rQmXlSTblv" target="_blank" rel="noopener noreferrer">
             <img src="i-2.png" alt="RYKU RUN">
           </a>
           <div class="label">RYKU RUN</div>
         </div>
 
-        <div class="icon">
+        <div class="icon icon--r1c3">
           <a class="icon-link" href="https://t.co/78mbgUrMBu" target="_blank" rel="noopener noreferrer">
             <img src="i-3.png" alt="RYKU BIRD">
           </a>
           <div class="label">RYKU BIRD</div>
         </div>
 
-        <div class="icon">
+        <div class="icon icon--r1c4">
           <a class="icon-link" href="https://ryku-snake.vercel.app/" target="_blank" rel="noopener noreferrer">
             <img src="i-4.png" alt="RYKU SNAKE">
           </a>
           <div class="label">RYKU SNAKE</div>
         </div>
 
-        <div class="icon">
+        <div class="icon icon--r1c5">
           <a class="icon-link" href="https://ryku-strike.vercel.app/" target="_blank" rel="noopener noreferrer">
             <img src="i-5.png" alt="RYKU STRIKE">
           </a>
           <div class="label">RYKU STRIKE</div>
         </div>
 
-        <div class="icon">
+        <div class="icon icon--r1c6">
+          <a class="icon-link" href="https://raiku-siqos-game.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <img src="i-12.png" alt="siQoS GAME">
+          </a>
+          <div class="label">siQoS<br>GAME</div>
+        </div>
+
+        <div class="icon icon--r1c7">
+          <a class="icon-link" href="https://raiku-redacted.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <img src="i-13.png" alt="[redacted]">
+          </a>
+          <div class="label">redacted</div>
+        </div>
+
+        <div class="icon icon--r2c1">
           <a class="icon-link" href="https://t.co/jVZc5HzGww" target="_blank" rel="noopener noreferrer">
             <img src="i-6.png" alt="COMMUNITY GALLERY">
           </a>
           <div class="label">COMMUNITY<br>GALLERY</div>
         </div>
 
-        <div class="icon">
+        <div class="icon icon--r2c2">
           <a class="icon-link" href="https://ryku-santa-arc.vercel.app/" target="_blank" rel="noopener noreferrer">
             <img src="i-7.png" alt="SANTA GALLERY">
           </a>
           <div class="label">SANTA<br>GALLERY</div>
         </div>
 
-        <div class="icon icon--irina">
+        <div class="icon icon--r3c1">
           <button class="icon-link" type="button" id="openIrina">
             <img src="i-8.png" alt="PFP BY IRINA">
           </button>
           <div class="label">PFP BY<br>IRINA</div>
         </div>
 
-        <div class="icon icon--pinki">
+        <div class="icon icon--r3c2">
           <button class="icon-link" type="button" id="openPinki">
             <img src="i-9.png" alt="PFP BY PINKI">
           </button>
           <div class="label">PFP BY<br>PINKI</div>
         </div>
 
-        <div class="icon icon--quiz">
+        <div class="icon icon--r4c1">
           <button class="icon-link" type="button" id="openQuiz">
             <img src="i-10.png" alt="LEARN & QUIZ">
           </button>
           <div class="label">LEARN &amp;<br>QUIZ</div>
+        </div>
+
+        <div class="icon icon--r4c2">
+          <a class="icon-link" href="https://how-siqos-works.vercel.app/" target="_blank" rel="noopener noreferrer">
+            <img src="i-11.png" alt="HOW siQoS WORKS?">
+          </a>
+          <div class="label">HOW siQoS<br>WORKS?</div>
         </div>
       </section>
     </div>
@@ -643,22 +655,18 @@
   <script>
     const DURATION_MS = 6000;
     const TICK_MS = 50;
-
     const bar = document.getElementById('bar');
     const percentText = document.getElementById('percentText');
     const loadingScreen = document.getElementById('loadingScreen');
     const desktop = document.getElementById('desktop');
-
     let elapsed = 0;
 
     const timer = setInterval(() => {
       elapsed += TICK_MS;
       const progress = Math.min(elapsed / DURATION_MS, 1);
       const percent = Math.round(progress * 100);
-
       bar.style.width = percent + '%';
       percentText.textContent = percent + '%';
-
       if (progress >= 1) {
         clearInterval(timer);
         loadingScreen.style.display = 'none';
@@ -670,23 +678,19 @@
     const setupToggle = document.getElementById('setupToggle');
     const setupPanel = document.getElementById('setupPanel');
 
-    function setSetupOpen(isOpen){
+    function setSetupOpen(isOpen) {
       setupPanel.classList.toggle('is-open', isOpen);
       setupToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     }
 
-    setupToggle.addEventListener('click', () => {
-      setSetupOpen(!setupPanel.classList.contains('is-open'));
-    });
+    setupToggle.addEventListener('click', () => setSetupOpen(!setupPanel.classList.contains('is-open')));
 
-    window.addEventListener('mousedown', (e) => {
+    window.addEventListener('mousedown', e => {
       if (!setupPanel.classList.contains('is-open')) return;
-      const insidePanel = setupPanel.contains(e.target);
-      const insideHandle = setupToggle.contains(e.target);
-      if (!insidePanel && !insideHandle) setSetupOpen(false);
+      if (!setupPanel.contains(e.target) && !setupToggle.contains(e.target)) setSetupOpen(false);
     });
 
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener('keydown', e => {
       if (e.key === 'Escape') setSetupOpen(false);
     });
 
@@ -694,7 +698,6 @@
     const closeModalBtn = document.getElementById('closeModal');
     const frame = document.getElementById('modalFrame');
     const modalTitle = document.getElementById('modalTitle');
-
     let lastFocusEl = null;
 
     function openModal({ title, src, focusBackTo }) {
@@ -716,56 +719,46 @@
     }
 
     closeModalBtn.addEventListener('click', closeModal);
-
-    modal.addEventListener('click', (e) => {
-      if (e.target && e.target.dataset && e.target.dataset.close === 'true') closeModal();
+    modal.addEventListener('click', e => {
+      if (e.target?.dataset?.close === 'true') closeModal();
     });
 
-    window.addEventListener('keydown', (e) => {
+    window.addEventListener('keydown', e => {
       if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
     });
 
-    const openIrina = document.getElementById('openIrina');
-    const openPinki = document.getElementById('openPinki');
-    const openQuiz = document.getElementById('openQuiz');
+    document.getElementById('openIrina').addEventListener('click', () =>
+      openModal({ title: 'PFP by Irina', src: 'irina.html', focusBackTo: document.getElementById('openIrina') })
+    );
 
-    openIrina.addEventListener('click', () => {
-      openModal({ title: 'PFP by Irina', src: 'irina.html', focusBackTo: openIrina });
-    });
+    document.getElementById('openPinki').addEventListener('click', () =>
+      openModal({ title: 'PFP by Pinki', src: 'pinki.html', focusBackTo: document.getElementById('openPinki') })
+    );
 
-    openPinki.addEventListener('click', () => {
-      openModal({ title: 'PFP by Pinki', src: 'pinki.html', focusBackTo: openPinki });
-    });
-
-    openQuiz.addEventListener('click', () => {
-      openModal({ title: 'Learn & Quiz', src: 'quiz.html', focusBackTo: openQuiz });
-    });
+    document.getElementById('openQuiz').addEventListener('click', () =>
+      openModal({ title: 'Learn & Quiz', src: 'quiz.html', focusBackTo: document.getElementById('openQuiz') })
+    );
 
     const bgButtons = Array.from(document.querySelectorAll('.bg-option'));
 
-    function applyBackgroundFromButton(btn){
-      const type = btn.dataset.type;
-      if (type === 'image') {
-        const fileName = btn.dataset.bg;
+    function applyBackgroundFromButton(btn) {
+      if (btn.dataset.type === 'image') {
         document.body.style.backgroundColor = '#c0ff38';
-        document.body.style.backgroundImage = `url("${fileName}")`;
+        document.body.style.backgroundImage = `url("${btn.dataset.bg}")`;
       } else {
-        const color = btn.dataset.color || '#c0ff38';
-        document.body.style.backgroundColor = color;
+        document.body.style.backgroundColor = btn.dataset.color || '#c0ff38';
         document.body.style.backgroundImage = 'none';
       }
     }
 
-    function setPressed(buttons, activeBtn){
-      buttons.forEach(btn => btn.setAttribute('aria-pressed', btn === activeBtn ? 'true' : 'false'));
+    function setPressed(buttons, activeBtn) {
+      buttons.forEach(b => b.setAttribute('aria-pressed', b === activeBtn ? 'true' : 'false'));
     }
 
-    bgButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        applyBackgroundFromButton(btn);
-        setPressed(bgButtons, btn);
-      });
-    });
+    bgButtons.forEach(btn => btn.addEventListener('click', () => {
+      applyBackgroundFromButton(btn);
+      setPressed(bgButtons, btn);
+    }));
 
     const defaultBgBtn = bgButtons.find(b => b.getAttribute('aria-pressed') === 'true');
     if (defaultBgBtn) applyBackgroundFromButton(defaultBgBtn);
@@ -779,22 +772,21 @@
       vt323: { ui: '"VT323", monospace', title: '"VT323", monospace', titleScale: 1 }
     };
 
-    function applyFontPreset(key){
+    function applyFontPreset(key) {
       const preset = FONT_PRESETS[key] || FONT_PRESETS.space;
       document.documentElement.style.setProperty('--ui-font', preset.ui);
       document.documentElement.style.setProperty('--title-font', preset.title);
       document.documentElement.style.setProperty('--title-scale', String(preset.titleScale));
     }
 
-    fontButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        applyFontPreset(btn.dataset.font);
-        setPressed(fontButtons, btn);
-      });
-    });
+    fontButtons.forEach(btn => btn.addEventListener('click', () => {
+      applyFontPreset(btn.dataset.font);
+      setPressed(fontButtons, btn);
+    }));
 
     const defaultFontBtn = fontButtons.find(b => b.getAttribute('aria-pressed') === 'true');
     if (defaultFontBtn) applyFontPreset(defaultFontBtn.dataset.font);
   </script>
 </body>
 </html>
+
